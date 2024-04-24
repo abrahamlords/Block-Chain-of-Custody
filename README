@@ -1,0 +1,61 @@
+Description: 
+For the function initialization, it first checks if the file exists, if not, it will create a one by
+generating a block and writing it into the file. If it exists, then it will check if the content is
+correct or not, if not it will simply exit(1) and print to tell the user something is not right. 
+
+
+For the function to be added, it will check if the file exists, if not it will call the
+initialization function to create it. If the file exists, it will still check the contents to see if it
+is correct or not, if not, it will exit(1) to notify the user that something is wrong. It stores
+the string value that is after ”-i ” into an array. This array is the evidence ID that we are
+going to put into our blocks later. First, it will read the file and grab all block information,
+then we use that information to compare with our evidence ID from our command line. If
+the evidence ID is matching, that means they are duplicated, we cannot add it, so we 
+will exit the program. If not matching then we will create a while loop, the condition is
+based on the evidence_array length, compute previous_hash, time, etc.. and add all
+that into the file with the structure defined by namedtuple, and write it into the file.
+
+For the function check-in, it will first check if it is initialized or not, if not it will just do 
+exit(1), if it is initialized, then it will read the file store it in a separate array, and check if
+the block status is checked out, if yes, it will append it to the second array. If it is 
+checked in, it will remove that item. The reason why we do it is that it might have some
+duplicated items, and cause some errors. Next, we will go through the list of the first 
+array. If that item status is in the removed condition, then we will exit the program
+because we cannot check in items that have been removed. Next, it will find the item in 
+the second array, get all necessary information and write it into the file.
+
+For the function check-out, it will first check if it is initialized or not, if not it will just do 
+exit(1), if it is initialized, then it will read the file store it in a separate array, and check if 
+the block status is checked in, if yes, it will append it to the second array. If it is checked 
+out, it will remove that item. The reason why we do it is that it might have some 
+duplicated items, and cause some errors. Next, we will go through the list of the first 
+array. If that item status is in the removed condition, then we will exit the program 
+because we cannot check out items that have been removed. Next, it will find the item 
+in the second array, get all necessary information and write it into the file. 
+
+
+For the function log, it will check the command line input, and store its condition (-n, -r, 
+-c, -i), later we can use this condition to enable some loops based on them. It will read 
+the file, and store all information into an array. Check if it wants a case or evidence id or 
+both, then perform a search in the array and put new information into the second array. 
+If it doesn’t have any -c or -i, just simply log, then it will copy the first array into the 
+second one. Then it will print the number of items or all based on the -n and -r if it wants 
+to be reversed. 
+
+For the function remove, it will check if the command line input is correct or not, and 
+check if it provides all necessary information such as -r need -o after it for owner 
+information. Also, it checks if the reason is one of our three, if not it will exit(1). It will 
+read the entire block file and store it in an array. If the removed item in the array has the 
+status of the removed condition, then it will exit(1), because we cannot remove an item 
+that has already been removed. Check if the item is checked out, if yes, exit(1) because 
+to remove an item it must be in a checked-in state. Also if the item is not in our blocks 
+we exit(1) too. If everything is fine, then we write a new block into our file and print out 
+all necessary information. 
+
+For function verify, it will grab all the block information and store it in an array. It will 
+check each block one by one in the status section, check it is INITIAL, CHECKEDIN, 
+CHECKEDOUT, DISPOSED, DESTROYED, or RELEASED, if not, then print out 
+information of this bad block. If everything is good, then print clean. 
+
+
+
